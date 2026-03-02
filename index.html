@@ -1,0 +1,631 @@
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+    *,
+    *::before,
+    *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    :root {
+        --navy: #1A3A6B;
+        --navy-mid: #1D4ED8;
+        --bg: #F2F2F7;
+        --white: #FFFFFF;
+        --border: rgba(0, 0, 0, 0.08);
+        --border-m: rgba(0, 0, 0, 0.13);
+        --t1: #1C1C1E;
+        --t2: #3A3A3C;
+        --t3: #6C6C70;
+        --t4: #AEAEB2;
+        --red: #C0392B;
+        --red-bg: #FFF1F0;
+        --red-b: rgba(192, 57, 43, 0.22);
+        --amber: #B45309;
+        --amber-bg: #FFFBEB;
+        --amber-b: rgba(180, 83, 9, 0.22);
+        --green: #1A7F4B;
+        --green-bg: #F0FBF4;
+        --green-b: rgba(26, 127, 75, 0.22);
+        --r: 14px;
+        --sh: 0 1px 3px rgba(0, 0, 0, 0.07), 0 0 0 0.5px rgba(0, 0, 0, 0.05);
+    }
+
+    body {
+        font-family: 'Inter', system-ui, sans-serif;
+        background: var(--bg);
+        color: var(--t1);
+    }
+
+    .topbar {
+        height: 52px;
+        background: rgba(255, 255, 255, 0.86);
+        backdrop-filter: saturate(180%) blur(20px);
+        border-bottom: .5px solid var(--border);
+        position: sticky;
+        top: 0;
+        z-index: 200;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 1.75rem;
+    }
+
+    .tb-title {
+        font-size: .8rem;
+        font-weight: 600;
+        color: var(--t2);
+        letter-spacing: -.01em;
+    }
+
+    .tb-right {
+        display: flex;
+        align-items: center;
+        gap: .85rem;
+    }
+
+    .clock {
+        font-size: .72rem;
+        font-weight: 500;
+        color: var(--t3);
+    }
+
+    .conn-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: .38rem;
+        padding: .28rem .75rem;
+        border-radius: 20px;
+        font-size: .65rem;
+        font-weight: 600;
+        background: var(--bg);
+        border: .5px solid var(--border-m);
+        color: var(--t3);
+    }
+
+    .conn-pill.live {
+        background: var(--green-bg);
+        border-color: var(--green-b);
+        color: var(--green);
+    }
+
+    .pdot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: currentColor;
+    }
+
+    .conn-pill.live .pdot {
+        animation: blink 2s ease infinite;
+    }
+
+    @keyframes blink {
+
+        0%,
+        100% {
+            opacity: 1
+        }
+
+        50% {
+            opacity: .25
+        }
+    }
+
+    .hero {
+        background: var(--white);
+        border-bottom: .5px solid var(--border);
+        padding: 2rem 1.75rem;
+        text-align: center;
+    }
+
+    .hero.alarm {
+        animation: heroPulse 1s ease infinite;
+    }
+
+    @keyframes heroPulse {
+
+        0%,
+        100% {
+            background: #fff
+        }
+
+        50% {
+            background: #fff0f0
+        }
+    }
+
+    .hero-title {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--navy);
+        letter-spacing: -.04em;
+    }
+
+    .system-status {
+        display: inline-flex;
+        align-items: center;
+        gap: .55rem;
+        margin-top: .85rem;
+        padding: .4rem 1.2rem;
+        border-radius: 8px;
+        border: 1.5px solid;
+        font-size: .72rem;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+
+    .system-status.normal {
+        color: var(--green);
+        border-color: var(--green-b);
+        background: var(--green-bg);
+    }
+
+    .system-status.anormal {
+        color: var(--red);
+        border-color: var(--red-b);
+        background: var(--red-bg);
+        animation: statusPulse .8s ease infinite;
+    }
+
+    @keyframes statusPulse {
+
+        0%,
+        100% {
+            background: var(--red-bg)
+        }
+
+        50% {
+            background: #ffd8d8
+        }
+    }
+
+    .sensor-card {
+        background: white;
+        border-radius: var(--r);
+        padding: 1.2rem;
+        box-shadow: var(--sh);
+        margin: 1rem 0;
+    }
+
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+
+    .card-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: var(--navy);
+    }
+
+    .toggle-btn {
+        padding: 0.5rem 1rem;
+        background: var(--navy-mid);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.9rem;
+    }
+
+    .toggle-btn:hover {
+        background: var(--navy);
+    }
+
+    .value {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--navy);
+        text-align: center;
+        margin: 0.8rem 0;
+    }
+
+    .alert {
+        color: var(--red);
+        font-weight: 600;
+    }
+
+    canvas {
+        width: 100% !important;
+        height: 180px !important;
+    }
+</style>
+
+<div style="padding:0 1rem; max-width:1200px; margin:0 auto;">
+    <div class="topbar">
+        <div class="tb-title">Akıllı Afet Ceket — Tüm Sensörler</div>
+        <div class="tb-right">
+            <div class="clock" id="clock">--:--:--</div>
+            <div class="conn-pill live"><span class="pdot"></span> Canlı</div>
+        </div>
+    </div>
+
+    <div class="hero" ng-class="{alarm: alarmActive}">
+        <h1 class="hero-title">Gerçek Zamanlı İzleme</h1>
+        <div class="system-status" ng-class="{'normal':!alarmActive, 'anormal':alarmActive}">
+            <span class="ss-dot"></span>
+            <span ng-if="!alarmActive">Normal</span>
+            <span ng-if="alarmActive">UYARI AKTİF</span>
+        </div>
+    </div>
+
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(340px, 1fr)); gap:1.2rem; margin:1.5rem 0;">
+        <div class="sensor-card" ng-repeat="sensor in sensors">
+            <div class="card-header">
+                <div class="card-title">{{ sensor.name }}</div>
+                <button class="toggle-btn" ng-click="toggleView(sensor.key)">
+                    {{ sensor.view === 'gauge' ? 'Çizgi Grafiğe Geç' : 'Gauge Görünümüne Dön' }}
+                </button>
+            </div>
+
+            <div ng-if="sensor.view === 'gauge'">
+                <canvas id="{{ 'gauge-' + sensor.key }}"></canvas>
+                <div class="value">
+                    {{ sensor.value !== null && !isNaN(sensor.value) ? sensor.value.toFixed(sensor.decimals) + ' ' +
+                    sensor.unit : '—' }}
+                </div>
+            </div>
+
+            <div ng-if="sensor.view === 'line'">
+                <canvas id="{{ 'line-' + sensor.key }}"></canvas>
+                <div class="value">
+                    {{ sensor.value !== null && !isNaN(sensor.value) ? sensor.value.toFixed(sensor.decimals) + ' ' +
+                    sensor.unit : '—' }}
+                </div>
+            </div>
+
+            <div style="text-align:center; color:var(--t3); font-size:0.85rem;">
+                Son: {{ sensor.lastUpdate | date:'HH:mm:ss' }}
+                <span ng-if="sensor.alert" class="alert"> ({{ sensor.alertText }})</span>
+            </div>
+        </div>
+
+        <div class="sensor-card">
+            <h3>Düşme / SOS Durumu</h3>
+            <div class="value" ng-class="{'alert': fall_detected || sos_active}">
+                {{ fall_detected ? 'DÜŞME ALGILANDI!' : sos_active ? 'SOS BUTONU BASILDI!' : 'Normal' }}
+            </div>
+            <div ng-if="fall_impact" style="text-align:center;">Şiddet: {{ fall_impact ? fall_impact.toFixed(1) : '—' }}
+                g</div>
+        </div>
+    </div>
+
+    <div class="sensor-card">
+        <h3>Son Olaylar</h3>
+        <ul style="list-style:none; padding:0; max-height:200px; overflow-y:auto;">
+            <li ng-repeat="e in events track by $index" style="padding:0.4rem 0; border-bottom:1px solid #eee;">
+                {{ e.time | date:'HH:mm:ss' }} — {{ e.msg }}
+            </li>
+        </ul>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+
+<script>
+    (function(scope) {
+
+    scope.sensors = [
+        { key: "heart_rate",     name: "Kalp Atış Hızı",    unit: "bpm",  decimals: 0, min: 0,   max: 200,  value: null, view: 'gauge', data: [], lastUpdate: null, alert: false, alertText: "Yüksek!" },
+        { key: "spo2",           name: "SpO₂",              unit: "%",    decimals: 0, min: 70,  max: 100,  value: null, view: 'gauge', data: [], lastUpdate: null, alert: false, alertText: "Düşük!" },
+        { key: "current_ma",     name: "Akım (INA169)",     unit: "mA",   decimals: 0, min: 0,   max: 5000, value: null, view: 'gauge', data: [], lastUpdate: null },
+        { key: "power_mw",       name: "Güç (INA169)",      unit: "mW",   decimals: 0, min: 0,   max: 30000,value: null, view: 'gauge', data: [], lastUpdate: null },
+        { key: "temp_ds18",      name: "Vücut Sıcaklığı (DS18B20)", unit: "°C", decimals: 1, min: 30,  max: 42,   value: null, view: 'gauge', data: [], lastUpdate: null },
+        { key: "black_gas_ppm",  name: "Siyah Gaz",         unit: "ppm",  decimals: 0, min: 0,   max: 1000, value: null, view: 'gauge', data: [], lastUpdate: null, alert: false, alertText: "Yüksek!" },
+        { key: "co2",            name: "CO₂ (MH-Z14)",      unit: "ppm",  decimals: 0, min: 300, max: 5000, value: null, view: 'gauge', data: [], lastUpdate: null, alert: false, alertText: "Tehlikeli!" },
+        { key: "sht_temp",       name: "Ortam Sıcaklık (SHT3x)", unit: "°C", decimals: 1, min: -10, max: 50,   value: null, view: 'gauge', data: [], lastUpdate: null },
+        { key: "sht_hum",        name: "Nem (SHT3x)",       unit: "%",    decimals: 0, min: 0,   max: 100,  value: null, view: 'gauge', data: [], lastUpdate: null },
+        { key: "adxl_total",     name: "İvme (ADXL335)",    unit: "g",    decimals: 2, min: 0,   max: 5,    value: null, view: 'gauge', data: [], lastUpdate: null },
+        { key: "mpu_accel",      name: "İvme (MPU6050)",    unit: "g",    decimals: 2, min: 0,   max: 16,   value: null, view: 'gauge', data: [], lastUpdate: null },
+        { key: "mpu_gyro",       name: "Jiroskop (MPU6050)",unit: "°/s",  decimals: 1, min: 0,   max: 2000, value: null, view: 'gauge', data: [], lastUpdate: null },
+        { key: "mpu_temp",       name: "IMU Sıcaklık (MPU6050)", unit: "°C", decimals: 1, min: -40, max: 85, value: null, view: 'gauge', data: [], lastUpdate: null },
+        { key: "mq4_ppm",        name: "Metan/Doğalgaz (MQ-4)", unit: "ppm", decimals: 0, min: 0,   max: 10000,value: null, view: 'gauge', data: [], lastUpdate: null },
+        { key: "co_ppm",         name: "Karbonmonoksit (SEN0466)", unit: "ppm", decimals: 1, min: 0,   max: 1000, value: null, view: 'gauge', data: [], lastUpdate: null, alert: false, alertText: "Tehlikeli!" }
+    ];
+
+    scope.alarmActive = false;
+    scope.events = [];
+    scope.fall_detected = false;
+    scope.fall_impact = null;
+    scope.sos_active = false;
+
+    const MAX_POINTS = 120;
+    let charts = {};
+
+    function getSensor(key) {
+        return scope.sensors.find(s => s.key === key);
+    }
+
+    function updateGauge(key) {
+        const s = getSensor(key);
+        if (!s) return;
+        const ctx = document.getElementById('gauge-' + key);
+        if (!ctx) return;
+
+        if (charts[key + '-gauge']) charts[key + '-gauge'].destroy();
+
+        const value = (s.value !== null && !isNaN(s.value)) ? s.value : s.min;
+        const percent = Math.min(100, Math.max(0, (value - s.min) / (s.max - s.min) * 100));
+
+        charts[key + '-gauge'] = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                datasets: [{
+                    data: [percent, 100 - percent],
+                    backgroundColor: [ s.alert ? 'var(--red)' : 'var(--navy-mid)', '#e0e0e0' ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                cutout: '75%',
+                rotation: -90,
+                circumference: 180,
+                plugins: { legend:{display:false}, tooltip:{enabled:false} },
+                maintainAspectRatio: false
+            },
+            plugins: [{
+                id: 'needle',
+                afterDraw(chart) {
+                    const {ctx, chartArea: {width, height}} = chart;
+                    ctx.save();
+                    const angle = (percent / 100) * Math.PI + Math.PI;
+                    ctx.translate(width/2, height);
+                    ctx.rotate(angle);
+                    ctx.beginPath();
+                    ctx.moveTo(0, -3);
+                    ctx.lineTo(height * 0.7, 0);
+                    ctx.lineTo(0, 3);
+                    ctx.closePath();
+                    ctx.fillStyle = 'var(--navy)';
+                    ctx.fill();
+                    ctx.restore();
+                }
+            }]
+        });
+    }
+
+    function updateLine(key) {
+        const s = getSensor(key);
+        if (!s) return;
+        const ctx = document.getElementById('line-' + key);
+        if (!ctx) return;
+
+        if (charts[key + '-line']) charts[key + '-line'].destroy();
+
+        const labels = s.data.map((_,i) => i);
+        const data = s.data.map(d => d.y);
+
+        charts[key + '-line'] = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: s.name,
+                    data: data,
+                    borderColor: s.alert ? 'var(--red)' : 'var(--navy-mid)',
+                    backgroundColor: 'rgba(29,78,216,0.1)',
+                    tension: 0.4,
+                    fill: true,
+                    pointRadius: 0,
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: { display: false },
+                    y: { min: s.min, max: s.max, ticks: { stepSize: (s.max - s.min)/5 } }
+                },
+                plugins: { legend:{display:false}, tooltip:{enabled:true} }
+            }
+        });
+    }
+
+    scope.toggleView = function(key) {
+        const s = getSensor(key);
+        if (!s) return;
+        s.view = s.view === 'gauge' ? 'line' : 'gauge';
+        if (s.view === 'gauge') updateGauge(key);
+        else updateLine(key);
+    };
+
+    function addData(key, value) {
+        const s = getSensor(key);
+        if (!s) return;
+        if (value === null || isNaN(value)) return;
+
+        s.value = value;
+        s.lastUpdate = new Date();
+
+        s.data.push({ x: Date.now(), y: value });
+        if (s.data.length > MAX_POINTS) s.data.shift();
+
+        if (s.view === 'gauge') updateGauge(key);
+        else updateLine(key);
+    }
+
+    setInterval(() => {
+        const el = document.getElementById('clock');
+        if (el) el.textContent = new Date().toLocaleTimeString('tr-TR', {hour12: false});
+    }, 1000);
+
+    // ────────────────────────────────────────────────
+    // Ana veri işleyici – InfluxDB point formatına uygun
+    // ────────────────────────────────────────────────
+    scope.$watch('msg', function(msg) {
+        if (!msg || !msg.payload) return;
+
+        let payload = msg.payload;
+
+        // InfluxDB formatı: genellikle dizi içinde tek obje gelir
+        if (Array.isArray(payload) && payload.length > 0) {
+            payload = payload[0];
+        }
+
+        if (!payload || typeof payload !== 'object') return;
+
+        const measurement = payload.measurement || "";
+        const fields = payload.fields || {};
+        const tags = payload.tags || {};
+
+        console.log("[DASHBOARD] Gelen veri →", { measurement, fields, tags });
+
+        let updated = false;
+
+        switch (measurement) {
+            // 1-2. Oksimetreler
+            case "heartrate_oximeter":
+            case "pulse_oximeter":
+                if (typeof fields.heart_rate === 'number') {
+                    addData('heart_rate', fields.heart_rate);
+                    if (fields.heart_rate > 160) scope.alarmActive = true;
+                    updated = true;
+                }
+                if (typeof fields.spo2 === 'number' && fields.spo2 > 0) {
+                    addData('spo2', fields.spo2);
+                    if (fields.spo2 < 90) {
+                        const s = getSensor('spo2');
+                        if (s) s.alert = true;
+                        scope.alarmActive = true;
+                    }
+                    updated = true;
+                }
+                break;
+
+            // 3. INA169
+            case "ina169_current":
+                if (typeof fields.current_ma === 'number') addData('current_ma', fields.current_ma);
+                if (typeof fields.power_mw   === 'number') addData('power_mw',   fields.power_mw);
+                updated = true;
+                break;
+
+            // 4. DS18B20
+            case "ds18b20":
+                if (typeof fields.temperature === 'number') {
+                    addData('temp_ds18', fields.temperature);
+                    updated = true;
+                }
+                break;
+
+            // 5. Siyah Gaz
+            case "black_gas":
+                if (typeof fields.gas_ppm === 'number') {
+                    addData('black_gas_ppm', fields.gas_ppm);
+                    if (fields.gas_ppm > 500) {
+                        const s = getSensor('black_gas_ppm');
+                        if (s) s.alert = true;
+                        scope.alarmActive = true;
+                    }
+                    updated = true;
+                }
+                break;
+
+            // 6. MH-Z14 CO2
+            case "mhz14_co2":
+                if (typeof fields.co2_ppm === 'number') {
+                    addData('co2', fields.co2_ppm);
+                    if (fields.co2_ppm > 2000) {
+                        const s = getSensor('co2');
+                        if (s) s.alert = true;
+                        scope.alarmActive = true;
+                    }
+                    updated = true;
+                }
+                break;
+
+            // 7. SHT3X
+            case "sht3x":
+                if (typeof fields.temperature === 'number') addData('sht_temp', fields.temperature);
+                if (typeof fields.humidity    === 'number') addData('sht_hum',   fields.humidity);
+                updated = true;
+                break;
+
+            // 8. ADXL335
+            case "adxl335_accel":
+                if (typeof fields.accel_x === 'number' && typeof fields.accel_y === 'number' && typeof fields.accel_z === 'number') {
+                    const total = Math.sqrt(fields.accel_x**2 + fields.accel_y**2 + fields.accel_z**2);
+                    addData('adxl_total', total);
+                    if (total > 2.5) scope.alarmActive = true;
+                    updated = true;
+                }
+                break;
+
+            // 9. MPU6050
+            case "mpu6050_imu":
+                if (typeof fields.accel_x === 'number' && typeof fields.accel_y === 'number' && typeof fields.accel_z === 'number') {
+                    const accelMag = Math.sqrt(fields.accel_x**2 + fields.accel_y**2 + fields.accel_z**2);
+                    addData('mpu_accel', accelMag);
+                    if (accelMag > 15) scope.alarmActive = true;
+                    updated = true;
+                }
+                if (typeof fields.gyro_x === 'number' && typeof fields.gyro_y === 'number' && typeof fields.gyro_z === 'number') {
+                    const gyroMag = Math.sqrt(fields.gyro_x**2 + fields.gyro_y**2 + fields.gyro_z**2);
+                    addData('mpu_gyro', gyroMag);
+                    updated = true;
+                }
+                if (typeof fields.temperature === 'number') {
+                    addData('mpu_temp', fields.temperature);
+                    updated = true;
+                }
+                if (fields.fall_detected) {
+                    scope.fall_detected = true;
+                    scope.fall_impact = fields.impact_g || 0;
+                    scope.alarmActive = true;
+                    scope.events.unshift({time: new Date(), msg: "DÜŞME ALGILANDI!"});
+                    updated = true;
+                }
+                break;
+
+            // 10. MQ-4
+            case "mq4_gas":
+                if (typeof fields.gas_ppm === 'number') {
+                    addData('mq4_ppm', fields.gas_ppm);
+                    updated = true;
+                }
+                break;
+
+            // 11. SEN0466 CO
+            case "sen0466_co":
+                if (typeof fields.co_ppm === 'number') {
+                    addData('co_ppm', fields.co_ppm);
+                    if (fields.co_ppm > 35) {
+                        const s = getSensor('co_ppm');
+                        if (s) s.alert = true;
+                        scope.alarmActive = true;
+                    }
+                    updated = true;
+                }
+                break;
+
+            // 12. Buton / SOS
+            case "button_state":
+                if (fields.state === 1 || tags.state_text === "BASILI") {
+                    scope.sos_active = true;
+                    scope.alarmActive = true;
+                    scope.events.unshift({
+                        time: new Date(),
+                        msg: "SOS BUTONU BASILDI — GPIO " + (fields.gpio || "?")
+                    });
+                    updated = true;
+                }
+                break;
+        }
+
+        // Genel olay kaydı (isteğe bağlı)
+        if (updated && measurement) {
+            scope.events.unshift({
+                time: new Date(),
+                msg: measurement + " güncellendi"
+            });
+            if (scope.events.length > 30) scope.events.pop();
+        }
+    });
+
+})(scope);
+</script>
